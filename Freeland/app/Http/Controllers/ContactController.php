@@ -13,7 +13,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        return view("contact.index", [
+            "contacts" => Contact::all()
+        ]);
     }
 
     /**
@@ -21,7 +23,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
+        return view("contacs.create");
     }
 
     /**
@@ -29,7 +31,15 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            "name" => "required",
+            "email" => "required|email|unique:contacts",
+            "phone" => "nullable|numeric",
+        ]);
+
+        Contact::create($data);
+
+        return redirect()->route("contacts.index");
     }
 
     /**
@@ -37,7 +47,9 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        //
+        return view("contacts.show", [
+            "contact" => $contact
+        ]);
     }
 
     /**
