@@ -13,7 +13,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return view("contact.index", [
+        return view("contacts.index", [
             "contacts" => Contact::all()
         ]);
     }
@@ -57,7 +57,9 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        //
+        return view("contacts.edit", [
+            "contact" => $contact
+        ]);
     }
 
     /**
@@ -65,7 +67,15 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        //
+        $data = $request->validate([
+            "name" => "required",
+            "email" => "required|email|unique:contacts" . $contact->id,
+            "phone" => "nullable|numeric",
+        ]);
+
+        Contact::update($data);
+
+        return redirect()->route("contacts.index");
     }
 
     /**
@@ -73,6 +83,8 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+
+        return redirect()->route("contacts.index");
     }
 }
