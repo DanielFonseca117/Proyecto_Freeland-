@@ -22,8 +22,8 @@
                 <!-- Menú -->
                 <nav class="menu_usuario">
                     <ul>
-                        <li><a class="boton_header_text" href="{{ route('register') }}">Login</a></li>
-                        <li><a class="boton_header_text" href="{{ route('login') }}">Sign up</a></li>
+                        <li><a class="boton_header_text" href="{{ route('login') }}">Login</a></li>
+                        <li><a class="boton_header_text" href="{{ route('register') }}">Sign up</a></li>
                     </ul>
                 </nav>
             </header>

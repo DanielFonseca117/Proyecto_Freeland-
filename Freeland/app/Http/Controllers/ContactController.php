@@ -23,7 +23,7 @@ class ContactController extends Controller
      */
     public function create()
     {
-        return view("contacs.create");
+        return view("contacts.create");
     }
 
     /**
@@ -69,7 +69,7 @@ class ContactController extends Controller
     {
         $data = $request->validate([
             "name" => "required",
-            "email" => "required|email|unique:contacts" . $contact->id,
+            "email" => "required|email|unique:contacts,email" . $contact->id,
             "phone" => "nullable|numeric",
         ]);
 
