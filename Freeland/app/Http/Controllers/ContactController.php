@@ -13,8 +13,20 @@ class ContactController extends Controller
      */
     public function index()
     {
+        $contacts = Contact::paginate(5);
+        
+        if(request('search')){
+            $search = request('search');
+
+            $contacts = Contact::where('name', 'like', "%$search%")
+            ->orWhere('email', 'like', "%$search%")
+            ->orWhere('phone', 'like', "%$search%")
+            ->paginate(5)
+            ->withQueryString();
+        }
+
         return view("contacts.index", [
-            "contacts" => Contact::all()
+            "contacts" => $contacts
         ]);
     }
 
@@ -69,11 +81,11 @@ class ContactController extends Controller
     {
         $data = $request->validate([
             "name" => "required",
-            "email" => "required|email|unique:contacts,email" . $contact->id,
+            "email" => "required|email|unique:contacts,email," . $contact->id,
             "phone" => "nullable|numeric",
         ]);
 
-        Contact::update($data);
+        $contact->update($data);
 
         return redirect()->route("contacts.index");
     }
